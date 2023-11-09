@@ -1,4 +1,4 @@
-import {*} from "./datubasea.js";
+import {*} from "./datubasea.json";
 
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="WEB_MODULE" version="4">
