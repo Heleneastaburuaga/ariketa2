@@ -33,6 +33,8 @@ app.get('/protected',(req,res) => {
         res.redirect('form.html')
 });
 
+const users = JSON.parse(fs.readFileSync('database.json', 'utf8'));
+
 app.post('/user',(req,res) => {
     if(req.body.username == myusername && req.body.password == mypassword){
 
