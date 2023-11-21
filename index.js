@@ -1,7 +1,8 @@
 const session = require('express-session')
 const express = require("express");
 const app = express()
-
+const path = require("path");
+const fs = require("fs");
 const PORT = 4000;
 
 // use static files
@@ -12,8 +13,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // use ejs views
-app.set("view engine", "ejs");
+app.set('view engine', 'ejs');
 app.set("views", "views");
+
 
 const sess = {
     secret: 'ausazko hitz multzoa',
@@ -21,31 +23,35 @@ const sess = {
 }
 app.use(session(sess))
 
-//username and password
-const myusername = 'user1'
-const mypassword = 'mypassword'
+
+const usersFilePath = path.join(__dirname, 'public', 'datubase.json');
+const users = JSON.parse(fs.readFileSync(usersFilePath, 'utf8'));
 
 app.get('/protected',(req,res) => {
 
     if(req.session.userid){
-        res.send("Welcome User <a href=\'/logout'>click to logout</a>");
+        const izena = req.session.userid;
+        res.send(`Welcome ${izena} <a href=\'/logout'>click to logout</a>`);
     }else
-        res.redirect('form.html')
+        res.redirect('/form.html');
 });
 
-const users = JSON.parse(fs.readFileSync('database.json', 'utf8'));
 
 app.post('/user',(req,res) => {
-    if(req.body.username == myusername && req.body.password == mypassword){
+    const myusername = req.body.username
+    const mypassword = req.body.password
 
-        req.session.userid=req.body.username;
+    const badago = users.find(user => user.username === myusername && user.password === mypassword);
+    if(badago){
+        req.session.userid=myusername;
         console.log(req.session)
         res.redirect('/protected');
     }
     else{
-        res.send('Invalid username or password');
+        res.redirect('/form.html?error=true');
     }
 })
+
 
 app.get('/logout',(req,res) => {
     req.session.destroy();
