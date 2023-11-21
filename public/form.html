@@ -14,12 +14,12 @@
     </div>
     <input type="submit" value="LogIn">
     <br>
-    <div id="error-message" style="color: red;"></div>
+    <div id="error-mezua" style="color: red;"></div>
     <script>
         const urlberria = new URLSearchParams(window.location.search);
         const error = urlberria.get('error');
         if (error === 'true') {
-             document.getElementById('error-message').textContent = 'Kredentzialak ez dira zuzenak';
+             document.getElementById('error-mezua').textContent = 'Kredentzialak ez dira zuzenak';
         }
     </script>
 </form>

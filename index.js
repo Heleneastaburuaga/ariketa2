@@ -25,7 +25,7 @@ app.use(session(sess))
 
 
 const usersFilePath = path.join(__dirname, 'public', 'datubase.json');
-const users = JSON.parse(fs.readFileSync(usersFilePath, 'utf8'));
+const users = require(usersFilePath);
 
 app.get('/protected',(req,res) => {
 
